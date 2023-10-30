@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import User from '../models/User';
 
 class TokenController {
@@ -34,7 +35,7 @@ class TokenController {
       },
     );
 
-    return res.json({ token });
+    return res.json({ token, user: { nome: user.nome, id, email: user.email } });
   }
 }
 
