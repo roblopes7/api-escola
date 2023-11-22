@@ -8,6 +8,7 @@ _dotenv2.default.config();
 
 require('./database');
 
+var _httpproxymiddleware = require('http-proxy-middleware');
 var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopRequireDefault(_homeRoutes);
 var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
 var _tokenRoutes = require('./routes/tokenRoutes'); var _tokenRoutes2 = _interopRequireDefault(_tokenRoutes);
@@ -29,6 +30,7 @@ class App {
     this.app.use(_express2.default.urlencoded({ extended: true }));
     this.app.use(_express2.default.json());
     this.app.use('/images/', _express2.default.static(_path.resolve.call(void 0, __dirname, '..', 'uploads', 'images')));
+    this.app.use('/images', _httpproxymiddleware.createProxyMiddleware.call(void 0, { target: 'https://34.95.212.108', changeOrigin: true }));
   }
 
   routes() {
