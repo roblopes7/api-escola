@@ -15,24 +15,6 @@ var _tokenRoutes = require('./routes/tokenRoutes'); var _tokenRoutes2 = _interop
 var _alunoRoutes = require('./routes/alunoRoutes'); var _alunoRoutes2 = _interopRequireDefault(_alunoRoutes);
 var _fotoRoutes = require('./routes/fotoRoutes'); var _fotoRoutes2 = _interopRequireDefault(_fotoRoutes);
 
-<<<<<<< HEAD
-=======
-const whiteList = [
-  'http://34.95.212.108',
-  'http://localhost:3001',
-];
-
-const corsOptions = {
-  origin(origin, callback) {
-    if (whiteList.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
->>>>>>> parent of f55b27b (Erro cors)
 class App {
   constructor() {
     this.app = _express2.default.call(void 0, );
