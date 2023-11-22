@@ -1,6 +1,5 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
 import helmet from 'helmet';
 import { resolve } from 'path';
 
@@ -8,12 +7,30 @@ dotenv.config();
 
 import './database';
 
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import express from 'express';
+
 import homeRoutes from './routes/homeRoutes';
 import userRoutes from './routes/userRoutes';
 import tokenRoutes from './routes/tokenRoutes';
 import alunoRoutes from './routes/alunoRoutes';
 import fotoRoutes from './routes/fotoRoutes';
+
+const whiteList = [
+  'http://34.95.212.108',
+  'http://localhost:3001',
+  'http://localhost:3000',
+  'localhost:3001',
+];
+
+const corsOptions = {
+  origin(origin, callback) {
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
 
 class App {
   constructor() {
@@ -23,14 +40,11 @@ class App {
   }
 
   middlewares() {
-    // Configurar o CORS para permitir todas as origens
-    this.app.use(cors());
-
+    this.app.use(cors(corsOptions));
     this.app.use(helmet());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use('/images/', express.static(resolve(__dirname, '..', 'uploads', 'images')));
-    this.app.use('/images', createProxyMiddleware({ target: 'https://34.95.212.108', changeOrigin: true }));
   }
 
   routes() {
